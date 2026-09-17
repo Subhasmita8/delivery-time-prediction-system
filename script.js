@@ -16,7 +16,7 @@
 // be available at this address by default. Change this if you deploy
 // the backend somewhere else (e.g. a live server URL).
 // ---------------------------------------------------------------------
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://food-delivery-prediction-wfwt.onrender.com";
 
 // ---- Grab references to the elements we need to read from / update ----
 const distanceInput = document.getElementById("distance");
