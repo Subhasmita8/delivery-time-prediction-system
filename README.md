@@ -205,61 +205,6 @@ Expected response:
 {"predicted_delivery_time": 41.02}
 ```
 
----
-
-## 🎤 How to Explain This Project in an Interview
-
-**1. Elevator pitch (30 seconds):**
-> "I built a food delivery ETA prediction system using Linear Regression.
-> It takes order details — distance, time of day, restaurant rating, and
-> traffic — and predicts how long the delivery will take. I chose Linear
-> Regression deliberately because it's fully explainable: I can show exactly
-> how much each factor contributes to the final prediction, which matters
-> a lot in real-world systems where you need to justify predictions to
-> users or stakeholders. I wrapped the trained model in a FastAPI service
-> so it can be used as a real API."
-
-**2. If asked "why Linear Regression and not a more advanced model?":**
-> "For this problem, the relationship between features like distance and
-> delivery time is fairly straightforward and roughly linear, so a simple
-> model performs well without unnecessary complexity. Linear Regression is
-> also fully interpretable — I can point to a coefficient and say exactly
-> what it means, which is valuable for stakeholders and debugging. I'd
-> consider more complex models like Random Forest or XGBoost only if the
-> data showed non-linear patterns or interactions that a linear model
-> couldn't capture — and I'd only justify that added complexity if it gave
-> a meaningfully better error rate."
-
-**3. If asked about preprocessing:**
-> "I handled two things: missing values, which I filled with the column
-> mean to avoid crashing training or biasing results too much, and
-> categorical encoding — I converted the traffic level from text into
-> ordinal numbers (0, 1, 2) since traffic naturally has a ranked order,
-> unlike something like 'restaurant cuisine type' which would need one-hot
-> encoding instead."
-
-**4. If asked how you evaluated the model:**
-> "I used Mean Absolute Error, which tells me, in plain minutes, how far
-> off my predictions typically are. It's easy to communicate to
-> non-technical stakeholders: 'our predictions are off by about 3-4
-> minutes on average' is intuitive in a way that something like R² isn't."
-
-**5. If asked about the API design:**
-> "I used FastAPI because it gives automatic request validation and
-> interactive documentation for free. I separated concerns clearly: data
-> generation, preprocessing, model training/prediction, and the API layer
-> are all in different files, which makes the code easier to test, debug,
-> and extend."
-
-**6. If asked "what would you improve?":**
-> "I'd add more real-world features like weather, delivery partner
-> availability, or restaurant prep-time history. I'd also validate the
-> model on real historical data instead of synthetic data, and possibly
-> compare Linear Regression against a slightly more flexible model like
-> Random Forest to see if it captures non-linear effects — while keeping
-> interpretability as a priority in the decision."
-
----
 
 ## ✅ Summary
 
