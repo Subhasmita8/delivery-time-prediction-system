@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Delivery ETA Predictor</title>
+
+<!-- Two distinct typefaces: Manrope for body/labels, JetBrains Mono for the
+     big numeric readout (a real departures board uses monospace digits). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="board">
+  <div class="board__intro">
+    <h1>How long will it take?</h1>
+    <p>Enter the order details below and get an estimated delivery time from the Linear Regression model.</p>
+  </div>
+
+  <div class="board__grid">
+
+    <!-- LEFT PANEL: the input form -->
+    <form class="order-form" id="order-form">
+
+      <div class="field">
+        <div class="field__row">
+          <label for="distance">Distance</label>
+          <span class="field__value" id="distance-value">5.5 km</span>
+        </div>
+        <input type="range" id="distance" min="0.5" max="20" step="0.1" value="5.5" />
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="hour">Order time</label>
+          <span class="field__value" id="hour-value">7:00 PM</span>
+        </div>
+        <input type="range" id="hour" min="0" max="23" step="1" value="19" />
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="rating">Restaurant rating</label>
+          <span class="field__value" id="rating-value">4.2</span>
+        </div>
+        <input type="range" id="rating" min="1" max="5" step="0.1" value="4.2" />
+      </div>
+
+      <div class="field">
+        <label id="traffic-label">Traffic</label>
+        <div class="traffic-switch" id="traffic-switch" role="radiogroup" aria-labelledby="traffic-label">
+          <button type="button" class="traffic-switch__option" data-value="0" role="radio" aria-checked="false">Low</button>
+          <button type="button" class="traffic-switch__option is-selected" data-value="1" role="radio" aria-checked="true">Medium</button>
+          <button type="button" class="traffic-switch__option" data-value="2" role="radio" aria-checked="false">High</button>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Estimate delivery time</button>
+    </form>
+
+    <!-- RIGHT PANEL: the prediction readout -->
+    <div class="result-panel">
+      <div class="result-panel__label">Estimated time</div>
+      <div class="result-panel__digits" id="result-digits">--</div>
+      <div class="result-panel__unit">minutes</div>
+      <p class="result-panel__detail" id="result-detail">
+        Set the details on the left, then estimate to see a prediction here.
+      </p>
+    </div>
+
+  </div>
+
+  <p class="board__footer">
+    Powered by a Linear Regression model served at <code>/predict-time</code>.
+    See interactive API docs at <a href="/docs">/docs</a>.
+  </p>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

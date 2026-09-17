@@ -1,0 +1,318 @@
+/* =======================================================================
+   style.css — "Departures board" styling for the Delivery ETA predictor.
+
+   Concept: since this tool predicts a TIME, it borrows the visual language
+   of an airport/train departures board — a dark panel with a big digital
+   monospace readout for the number that matters most.
+   ======================================================================= */
+
+/* ---- Design tokens ---- */
+:root {
+  --bg: #12151c;
+  --panel: #1a1e29;
+  --panel-raised: #20242f;
+  --hairline: #2a2f3d;
+  --text: #ecebe3;
+  --text-muted: #8991a3;
+
+  --amber: #ffb020;
+  --amber-dim: #6b4d1a;
+
+  --low: #5fbe8c;
+  --medium: #e8c15a;
+  --high: #e1584f;
+
+  --radius: 10px;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-digits: "JetBrains Mono", "Courier New", monospace;
+}
+
+/* ---- Reset & base ---- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+/* ---- Board shell ---- */
+.board {
+  width: 100%;
+  max-width: 760px;
+}
+
+.board__intro h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.board__intro p {
+  margin: 0 0 28px;
+  color: var(--text-muted);
+  max-width: 46ch;
+}
+
+.board__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+@media (max-width: 620px) {
+  .board__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Left panel: the form ---- */
+.order-form {
+  background: var(--panel);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.field__value {
+  font-family: var(--font-digits);
+  font-size: 0.85rem;
+  color: var(--amber);
+}
+
+/* Range sliders, styled to match the board (flat track, amber thumb) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--hairline);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  border: 3px solid var(--panel);
+  box-shadow: 0 0 0 1px var(--amber);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  border: 3px solid var(--panel);
+  box-shadow: 0 0 0 1px var(--amber);
+}
+
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Traffic segmented control — color is functional here, not decorative:
+   it previews the semantic meaning (green/gold/red) of the choice. */
+.traffic-switch {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.traffic-switch__option {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--panel-raised);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.traffic-switch__option:hover {
+  color: var(--text);
+}
+
+.traffic-switch__option:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.traffic-switch__option[data-value="0"].is-selected {
+  border-color: var(--low);
+  color: var(--low);
+  background: color-mix(in srgb, var(--low) 14%, var(--panel-raised));
+}
+
+.traffic-switch__option[data-value="1"].is-selected {
+  border-color: var(--medium);
+  color: var(--medium);
+  background: color-mix(in srgb, var(--medium) 14%, var(--panel-raised));
+}
+
+.traffic-switch__option[data-value="2"].is-selected {
+  border-color: var(--high);
+  color: var(--high);
+  background: color-mix(in srgb, var(--high) 14%, var(--panel-raised));
+}
+
+/* Submit button */
+.submit-btn {
+  margin-top: 4px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--amber);
+  color: #1a1305;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.submit-btn:hover {
+  filter: brightness(1.08);
+}
+
+.submit-btn:active {
+  transform: scale(0.99);
+}
+
+.submit-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.submit-btn:disabled {
+  filter: grayscale(0.5) brightness(0.8);
+  cursor: not-allowed;
+}
+
+/* ---- Right panel: the result / "departures" readout ---- */
+.result-panel {
+  background: var(--panel-raised);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+}
+
+.result-panel__label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.result-panel__digits {
+  font-family: var(--font-digits);
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one deliberate motion moment: digits settle in when a new
+   estimate arrives. Everything else on the page stays still. */
+.result-panel__digits.is-updated {
+  animation: digit-settle 0.35s ease-out;
+}
+
+@keyframes digit-settle {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-panel__unit {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.result-panel__detail {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 32ch;
+}
+
+.result-panel__detail.is-error {
+  color: var(--high);
+}
+
+/* ---- Footer note ---- */
+.board__footer {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.board__footer a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.board__footer a:hover {
+  color: var(--text);
+}
+
+/* ---- Respect reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .result-panel__digits.is-updated {
+    animation: none;
+  }
+}
