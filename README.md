@@ -164,48 +164,6 @@ since it must be between 0–23) and generates interactive API docs.
 
 ---
 
-## ▶️ How to Run This Project
-
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 2. (Optional) Regenerate the dataset
-```bash
-python generate_data.py
-```
-This creates a fresh `data.csv`. A copy is already included, so you can skip this step.
-
-### 3. Train the model
-```bash
-python model.py
-```
-This trains the Linear Regression model, prints the MAE and coefficients,
-and saves the trained model to `delivery_model.pkl`.
-
-### 4. Run the API server
-```bash
-uvicorn app:app --reload
-```
-The server will start at: `http://127.0.0.1:8000`
-
-### 5. Try it out
-Open your browser to `http://127.0.0.1:8000/docs` for an interactive UI,
-**or** use curl:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/predict-time" \
-  -H "Content-Type: application/json" \
-  -d '{"distance": 5.5, "order_hour": 19, "rating": 4.2, "traffic": 2}'
-```
-
-Expected response:
-```json
-{"predicted_delivery_time": 41.02}
-```
-
-
 ## ✅ Summary
 
 | File              | Purpose                                              |
